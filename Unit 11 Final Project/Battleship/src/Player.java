@@ -56,6 +56,15 @@ public class Player
         }
     }
 
+    // Record a guess on the opponent's grid
+    public void recordMyGuess(int row, int col, boolean hit) {
+        if (hit) {
+            opponentGrid.markHit(row, col);
+        } else {
+            opponentGrid.markMiss(row, col);
+        }
+    }
+
     public void autoPlaceShips() {
         for (Ship ship : ships) {
             while (true) {
@@ -90,6 +99,17 @@ public class Player
                 if (!myGrid.get(r, c).checkHit()) {
                     return false;
                 }
+            }
+        }
+        return true;
+    }
+
+    public boolean isShipSunk(Ship ship) {
+        for (int i = 0; i < ship.getLength(); i++) {
+            int r = ship.getDirection() == 1 ? ship.getRow() + i : ship.getRow();
+            int c = ship.getDirection() == 0 ? ship.getCol() + i : ship.getCol();
+            if (!myGrid.get(r, c).checkHit()) {
+                return false;
             }
         }
         return true;

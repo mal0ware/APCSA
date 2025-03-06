@@ -46,8 +46,16 @@ public class Battleship extends ConsoleProgram
         int col = readInt("Enter column (0-9): ");
 
         boolean hit = opponent.recordOpponentGuess(row, col);
+        currentPlayer.recordMyGuess(row, col, hit);
+
         if (hit) {
             System.out.println("Hit!");
+            // Check if any ship has been sunk
+            for (Ship ship : opponent.getShips()) {
+                if (opponent.isShipSunk(ship)) {
+                    System.out.println("You sunk a " + ship.getLength() + "-length ship!");
+                }
+            }
         } else {
             System.out.println("Miss!");
         }
@@ -55,7 +63,7 @@ public class Battleship extends ConsoleProgram
         // Print updated board status
         System.out.println("Current Player's Guesses:");
         currentPlayer.printMyGuesses();
-        System.out.println("Opponent's Ships:");
-        opponent.printMyShips();
+        System.out.println("Current Player's Ships:");
+        currentPlayer.printMyShips();
     }
 }
