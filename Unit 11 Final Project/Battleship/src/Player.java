@@ -24,6 +24,7 @@ public class Player
                 ship.setLocation(row, col);
                 ship.setDirection(direction);
                 myGrid.addShip(ship);
+                printMyShips();
                 return;
             }
         }
