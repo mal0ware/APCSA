@@ -33,13 +33,31 @@ public class Battleship extends ConsoleProgram
         for (Ship ship : player.getShips()) {
             boolean validPlacement = false;
             while (!validPlacement) {
-                int row = (int)readLine("Enter row (A-J) for ship of length " + ship.getLength() + ": ").toUpperCase().charAt(0)-65;
-                int col = readInt("Enter column (1-10) for ship of length " + ship.getLength() + ": ") - 1;
-                int direction = readInt("Enter direction (0 for horizontal, 1 for vertical): ");
+                int row = -1, col = -1, direction = -1;
+                while (row < 0 || row > 9) {
+                    System.out.print("Enter row (A-J) for ship of length " + ship.getLength() + ": ");
+                    row = (int)input.nextLine().toUpperCase().charAt(0) - 65;
+                    if (row < 0 || row > 9) {
+                        System.out.println("Invalid row. Please enter a letter between A and J.");
+                    }
+                }
+                while (col < 0 || col > 9) {
+                    col = readInt("Enter column (1-10) for ship of length " + ship.getLength() + ": ") - 1;
+                    if (col < 0 || col > 9) {
+                        System.out.println("Invalid column. Please enter a number between 1 and 10.");
+                    }
+                }
+                while (direction != 0 && direction != 1) {
+                    direction = readInt("Enter direction (0 for horizontal, 1 for vertical): ");
+                    if (direction != 0 && direction != 1) {
+                        System.out.println("Invalid direction. Please enter 0 for horizontal or 1 for vertical.");
+                    }
+                }
                 
                 if (isValidPlacement(player, ship, row, col, direction)) {
                     player.chooseShipLocation(ship, row, col, direction);
                     validPlacement = true;
+                    player.printMyShips(); // Print the grid after successfully placing a ship
                 } else {
                     System.out.println("Invalid placement. Please try again.");
                 }
@@ -71,9 +89,20 @@ public class Battleship extends ConsoleProgram
     }
 
     private void askForGuess(Player currentPlayer, Player opponent) {
-        System.out.print("Enter row (A-J): ");
-        int row = (int)input.nextLine().toUpperCase().charAt(0)-65;
-        int col = readInt("Enter column (1-10): ") - 1;
+        int row = -1, col = -1;
+        while (row < 0 || row > 9) {
+            System.out.print("Take a shot! Enter row (A-J): ");
+            row = (int)input.nextLine().toUpperCase().charAt(0) - 65;
+            if (row < 0 || row > 9) {
+                System.out.println("Invalid row. Please enter a letter between A and J.");
+            }
+        }
+        while (col < 0 || col > 9) {
+            col = readInt("Enter column (1-10): ") - 1;
+            if (col < 0 || col > 9) {
+                System.out.println("Invalid column. Please enter a number between 1 and 10.");
+            }
+        }
 
         boolean hit = opponent.recordOpponentGuess(row, col);
         currentPlayer.recordMyGuess(row, col, hit);
