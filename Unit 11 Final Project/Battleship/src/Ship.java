@@ -83,4 +83,16 @@ public class Ship
     public String toString(){
         return directionToString() + " ship of length " + getLength() + " at " + locationToString();
     }
+
+    public boolean isAtLocation(int row, int col) {
+        // Check if the ship occupies the specified cell
+        for (int i = 0; i < getLength(); i++) {
+            int shipRow = getDirection() == 0 ? getRow() : getRow() + i;
+            int shipCol = getDirection() == 0 ? getCol() + i : getCol();
+            if (shipRow == row && shipCol == col) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

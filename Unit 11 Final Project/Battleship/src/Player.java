@@ -24,7 +24,6 @@ public class Player
                 ship.setLocation(row, col);
                 ship.setDirection(direction);
                 myGrid.addShip(ship);
-                printMyShips();
                 return;
             }
         }
@@ -118,5 +117,15 @@ public class Player
 
     public Ship[] getShips() {
         return ships;
+    }
+
+    public boolean isOccupied(int row, int col) {
+        // Check if the specified cell is occupied by any ship
+        for (Ship ship : getShips()) {
+            if (ship.isAtLocation(row, col)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
